@@ -1,0 +1,71 @@
+# Security Headers
+Header always set X-Frame-Options "SAMEORIGIN"
+Header always set X-Content-Type-Options "nosniff"
+Header always set X-XSS-Protection "1; mode=block"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+
+# Content Security Policy
+Header always set Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com https://images.pexels.com; script-src 'self' 'unsafe-inline'; connect-src 'self';"
+
+# GZIP Compression
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript text/xml application/xml text/plain application/json image/svg+xml
+</IfModule>
+
+# Browser Caching
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType image/png "access plus 6 months"
+    ExpiresByType image/jpg "access plus 6 months"
+    ExpiresByType image/jpeg "access plus 6 months"
+    ExpiresByType image/webp "access plus 6 months"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType application/pdf "access plus 6 months"
+    ExpiresByType text/html "access plus 0 seconds"
+    ExpiresByType application/x-httpd-php "access plus 0 seconds"
+</IfModule>
+
+# Cache Control for PHP files
+<FilesMatch "\.php$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+</FilesMatch>
+
+# HTTPS Redirect
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Trailing Slash
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !(.*)/$
+RewriteRule ^(.*)$ $1/ [L,R=301]
+
+# Remove trailing slash from files
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} (.*)/$
+RewriteRule ^(.*)/$  $1 [L,R=301]
+
+# Security - Block includes directory
+<Files ~ "^(includes/|config/|src/)">
+    Require all denied
+</Files>
+
+# Security - Block .htaccess and sensitive files
+<FilesMatch "^\.(htaccess|htpasswd|env|git)">
+    Require all denied
+</FilesMatch>
+
+# Resource Hints
+<FilesMatch "\.(html|php)$">
+    Header add Link "</css/style.css>; rel=preload; as=style"
+    Header add Link "</js/animations.js>; rel=preload; as=script"
+</FilesMatch>
+
+# Directory Index
+DirectoryIndex index.php
+
+# Error Documents
+ErrorDocument 404 /404.php
