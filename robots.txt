@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /includes/
+Disallow: /assets/cache/
+Disallow: /admin/
+
+Sitemap: https://www.v-clausen.de/sitemap.xml
