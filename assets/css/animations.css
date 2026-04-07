@@ -1,0 +1,464 @@
+:root {
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-expo: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  
+  --duration-fast: 250ms;
+  --duration-base: 350ms;
+  --duration-slow: 500ms;
+  
+  --color-primary: #8B4513;
+  --color-accent: #D2691E;
+  --color-text: #2C2C2C;
+  --color-background: #FEFEFE;
+}
+
+/* SCROLL-TRIGGERED ANIMATIONS */
+.animate-on-scroll {
+  opacity: 0;
+  transition: all var(--duration-slow) var(--ease-out-expo);
+}
+
+.animate-on-scroll.visible {
+  opacity: 1;
+}
+
+.fade-in-up {
+  transform: translateY(40px);
+}
+
+.fade-in-up.visible {
+  transform: translateY(0);
+}
+
+.fade-in-left {
+  transform: translateX(-40px);
+}
+
+.fade-in-left.visible {
+  transform: translateX(0);
+}
+
+.fade-in-right {
+  transform: translateX(40px);
+}
+
+.fade-in-right.visible {
+  transform: translateX(0);
+}
+
+.scale-in {
+  transform: scale(0.9);
+}
+
+.scale-in.visible {
+  transform: scale(1);
+}
+
+.blur-in {
+  filter: blur(4px);
+}
+
+.blur-in.visible {
+  filter: blur(0);
+}
+
+/* STAGGERED ANIMATIONS */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+.stagger-6 { animation-delay: 0.6s; }
+
+/* HERO ANIMATIONS */
+@keyframes heroTitleIn {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes heroSubtitleIn {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes heroCtaIn {
+  0% { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.hero-title {
+  animation: heroTitleIn var(--duration-slow) var(--ease-out-expo) 0.2s both;
+}
+
+.hero-subtitle {
+  animation: heroSubtitleIn var(--duration-slow) var(--ease-out-expo) 0.4s both;
+}
+
+.hero-cta {
+  animation: heroCtaIn var(--duration-slow) var(--ease-spring) 0.6s both;
+}
+
+/* HOLZFASER MATERIAL REVEAL */
+.material-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  transition: transform var(--duration-base) var(--ease-out-expo);
+}
+
+.material-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, 
+    rgba(139, 69, 19, 0.1) 0%, 
+    rgba(210, 105, 30, 0.1) 50%,
+    rgba(139, 69, 19, 0.1) 100%);
+  clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  transition: clip-path var(--duration-slow) var(--ease-out-expo);
+  z-index: 1;
+}
+
+.material-card:hover::before {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.material-card:hover {
+  transform: rotateY(10deg) translateZ(20px);
+}
+
+.material-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  opacity: 0;
+  transition: all var(--duration-base) var(--ease-out-expo);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 1rem;
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  z-index: 2;
+}
+
+.material-card:hover .material-overlay {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* REGIONALE VERWURZELUNG - SCHLESWIG-HOLSTEIN */
+.regional-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.05;
+  z-index: -1;
+}
+
+.sh-outline {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawPath 3s var(--ease-out-expo) forwards;
+}
+
+@keyframes drawPath {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.project-dot {
+  transform: scale(0);
+  animation: dotAppear 0.6s var(--ease-spring) forwards;
+}
+
+.project-dot:nth-child(1) { animation-delay: 1s; }
+.project-dot:nth-child(2) { animation-delay: 1.2s; }
+.project-dot:nth-child(3) { animation-delay: 1.4s; }
+
+@keyframes dotAppear {
+  to {
+    transform: scale(1);
+  }
+}
+
+/* KOMPLETT-LÖSUNG VISUALIZER */
+.solution-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  position: relative;
+}
+
+.solution-grid::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: 0;
+  background: var(--color-accent);
+  transform: translate(-50%, -50%);
+  transition: height var(--duration-slow) var(--ease-out-expo);
+}
+
+.solution-grid:hover::before {
+  height: 80%;
+}
+
+.trade-card {
+  transition: all var(--duration-base) var(--ease-out-expo);
+  border: 2px solid transparent;
+}
+
+.trade-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--color-primary);
+  box-shadow: 0 20px 40px rgba(139, 69, 19, 0.15);
+}
+
+/* HOVER MICRO-INTERACTIONS */
+.card-hover {
+  transition: all var(--duration-base) var(--ease-out-expo);
+  cursor: pointer;
+}
+
+.card-hover:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.12);
+}
+
+.btn-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-ripple::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width var(--duration-base) var(--ease-out-expo),
+              height var(--duration-base) var(--ease-out-expo);
+}
+
+.btn-ripple:hover::after {
+  width: 300px;
+  height: 300px;
+}
+
+.nav-underline {
+  position: relative;
+}
+
+.nav-underline::before {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--color-primary);
+  transform: scaleX(0);
+  transition: transform var(--duration-base) var(--ease-out-expo);
+}
+
+.nav-underline:hover::before {
+  transform: scaleX(1);
+}
+
+.img-hover-container {
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.img-hover-container img {
+  transition: transform var(--duration-slow) var(--ease-out-expo);
+}
+
+.img-hover-container:hover img {
+  transform: scale(1.05);
+}
+
+/* PROCESS STEPS TIMELINE */
+.process-step {
+  position: relative;
+  opacity: 0.6;
+  transition: all var(--duration-base) var(--ease-out-expo);
+}
+
+.process-step.active {
+  opacity: 1;
+  transform: scale(1.02);
+}
+
+.progress-bar {
+  height: 4px;
+  background: #f0f0f0;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--color-primary);
+  width: 0;
+  transition: width var(--duration-slow) var(--ease-in-out-quart);
+}
+
+.progress-fill.animate {
+  width: 100%;
+}
+
+/* VORHER/NACHHER SLIDER */
+.before-after-slider {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  cursor: col-resize;
+}
+
+.before-after-slider .after-image {
+  clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%);
+  transition: clip-path var(--duration-base) var(--ease-out-expo);
+}
+
+.before-after-slider:hover .after-image {
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+/* TELEFON CTA PULSING */
+.emergency-cta {
+  position: relative;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-weight: 600;
+  animation: pulseGlow 2s infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 20px rgba(231, 76, 60, 0);
+  }
+}
+
+/* COUNTER ANIMATION */
+.count-up {
+  font-variant-numeric: tabular-nums;
+  transition: transform var(--duration-base) var(--ease-out-expo);
+}
+
+/* PARALLAX CLASSES */
+.parallax-slow {
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.parallax-medium {
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* LOADING SKELETON */
+.skeleton {
+  background: linear-gradient(90deg, 
+    rgba(255,255,255,0) 0%, 
+    rgba(255,255,255,0.2) 20%, 
+    rgba(255,255,255,0.5) 60%, 
+    rgba(255,255,255,0)
+  );
+  background-color: #f0f0f0;
+  animation: shimmer 2s infinite linear;
+  border-radius: 4px;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200px 0; }
+  100% { background-position: calc(200px + 100%) 0; }
+}
+
+/* KEYFRAME LIBRARY */
+@keyframes slideInDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* ACCESSIBILITY: REDUCED MOTION */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .parallax-slow,
+  .parallax-medium {
+    background-attachment: scroll;
+  }
+  
+  .emergency-cta {
+    animation: none;
+  }
+  
+  .skeleton {
+    animation: none;
+  }
+}
